@@ -1,89 +1,171 @@
-from collections import deque
+import time
+import threading
+from queue import Queue
 
-class PCB:
+# 进程状态
+NEW = "新建"
+READY = "就绪"
+RUNNING = "运行"
+WAITING = "等待"
+TERMINATED = "终止"
+
+class Process:
+    """进程控制块 (PCB)"""
+    pid_counter = 0
+
     def __init__(self, pid, priority, burst_time):
-        self.pid = pid  # 进程ID
-        self.priority = priority  # 优先级
-        self.burst_time = burst_time  # 所需CPU时间
-        self.remaining_time = burst_time  # 剩余CPU时间
-        self.state = '就绪'  # 状态: '就绪', '运行', '等待', '终止'
-        self.waiting_for = None  # 如果有等待资源，则设置为资源名称
+        self.pid = pid
+        self.priority = priority
+        self.burst_time = burst_time
+        self.remaining_time = burst_time
+        self.state = NEW
 
     def __repr__(self):
-        return f"进程(pid={self.pid}, 状态={self.state}, 剩余时间={self.remaining_time})"
-
-class Scheduler:
-    def __init__(self, algorithm='fcfs'):
-        self.algorithm = algorithm.lower()
-        self.ready_queue = deque()  # 就绪队列
-
-    def add_process(self, pcb):
-        if self.algorithm == 'priority':
-            self.ready_queue = deque(sorted(list(self.ready_queue) + [pcb], key=lambda x: x.priority))
-        else:
-            self.ready_queue.append(pcb)
-
-    def get_next_process(self):
-        if self.ready_queue:
-            if self.algorithm in ['sjf', 'srtf']:
-                # 按最短作业或剩余时间排序
-                self.ready_queue = deque(sorted(self.ready_queue, key=lambda x: x.remaining_time))
-            return self.ready_queue.popleft()
-        return None
+        return f"进程(pid={self.pid}, 优先级={self.priority}, 状态={self.state}, 剩余时间={self.remaining_time})"
 
 class Clock:
-    def __init__(self, scheduler):
+    """用于模拟时间的类"""
+    def __init__(self):
         self.time = 0
-        self.scheduler = scheduler
+        self.ready_queue = []
+        self.completed = []
+        self.time_slice = 2  # 默认时间片
 
-    def tick(self):
-        self.time += 1
-        print(f"时间 {self.time}:")
-        next_pcb = self.scheduler.get_next_process()
-        if next_pcb:
-            next_pcb.state = '运行'
-            next_pcb.remaining_time -= 1
-            if next_pcb.remaining_time <= 0:
-                next_pcb.state = '终止'
-                print(f"进程 {next_pcb.pid} 已终止.")
-            else:
-                self.scheduler.add_process(next_pcb)
-        self.print_status()
+    def tick(self, scheduler_algorithm, time_unit=1):
+        """根据调度算法推进时间，时间推进一个单位"""
+        if not self.ready_queue:
+            print("无可运行进程，时间未推进.")
+            return
 
-    def print_status(self):
-        print("当前所有进程状态:")
-        for pcb in self.scheduler.ready_queue:
-            print(pcb)
-        print()
+        if scheduler_algorithm == 'fcfs':
+            self.fcfs(time_unit)
+        elif scheduler_algorithm == 'rr':
+            self.rr()
+        elif scheduler_algorithm == 'priority':
+            self.priority_scheduling(time_unit)
+        elif scheduler_algorithm == 'sjf':
+            self.sjf(time_unit)
+        elif scheduler_algorithm == 'srtf':
+            self.srtf(time_unit)
+
+    def set_time_slice(self, time_slice):
+        """设置时间片"""
+        self.time_slice = time_slice
+
+    def add_process(self, process):
+        """添加新进程到就绪队列"""
+        process.state = READY
+        self.ready_queue.append(process)
+
+    def fcfs(self, time_unit):
+        """先来先服务调度"""
+        process = self.ready_queue[0]
+        process.state = RUNNING
+        print(f"运行中: {process} (运行 {time_unit} 单位时间)")
+
+        time.sleep(time_unit)
+        process.remaining_time -= time_unit
+
+        if process.remaining_time <= 0:
+            process.remaining_time = 0
+            process.state = TERMINATED
+            self.completed.append(self.ready_queue.pop(0))
+            print(f"完成: {process}")
+        else:
+            process.state = READY
+
+    def rr(self):
+        """时间片轮转调度"""
+        process = self.ready_queue.pop(0)
+        process.state = RUNNING
+        run_time = min(process.remaining_time, self.time_slice)
+        print(f"运行中: {process} (运行 {run_time} 单位时间)")
+
+        time.sleep(run_time)
+        process.remaining_time -= run_time
+
+        if process.remaining_time > 0:
+            process.state = READY
+            self.ready_queue.append(process)
+        else:
+            process.state = TERMINATED
+            self.completed.append(process)
+            print(f"完成: {process}")
+
+    def priority_scheduling(self, time_unit):
+        """优先级调度"""
+        self.ready_queue.sort(key=lambda p: p.priority)
+        self.fcfs(time_unit)
+
+    def sjf(self, time_unit):
+        """短作业优先调度"""
+        self.ready_queue.sort(key=lambda p: p.burst_time)
+        self.fcfs(time_unit)
+
+    def srtf(self, time_unit):
+        """最短剩余时间优先调度"""
+        self.ready_queue.sort(key=lambda p: p.remaining_time)
+        process = self.ready_queue[0]
+        process.state = RUNNING
+        print(f"运行中: {process} (运行 {time_unit} 单位时间)")
+
+        time.sleep(time_unit)
+        process.remaining_time -= time_unit
+
+        if process.remaining_time <= 0:
+            process.remaining_time = 0
+            process.state = TERMINATED
+            self.completed.append(self.ready_queue.pop(0))
+            print(f"完成: {process}")
+        else:
+            process.state = READY
+
+clock = Clock()
 
 def main():
     print("欢迎使用进程管理模拟系统！")
-    scheduler_algorithm = input("请选择调度算法 (FCFS/RR/Priority/SJF/SRTF): ").strip().lower()
-    scheduler = Scheduler(algorithm=scheduler_algorithm)
-    clock = Clock(scheduler)
 
-    while True:
-        print("\n命令列表：")
-        print("1. 创建 - 创建新进程")
-        print("2. 推进 - 推进模拟时间")
-        print("3. 退出 - 退出程序")
-        command = input("请输入命令编号：").strip()
+    while True:  # 外层循环用于选择调度算法
+        scheduler_algorithm = input("请选择调度算法 (FCFS/RR/Priority/SJF/SRTF): ").strip().lower()
+        if scheduler_algorithm not in ['fcfs', 'rr', 'priority', 'sjf', 'srtf']:
+            print("未知调度算法，请选择有效的算法.")
+            continue
 
-        if command == '1':
+        if scheduler_algorithm == 'rr':
             try:
-                pid, priority, burst_time = map(int, input("请输入PID, 优先级, 和所需CPU时间（用空格分隔）: ").split())
-                pcb = PCB(pid, priority, burst_time)
-                scheduler.add_process(pcb)
-                print(f"已创建进程 PID: {pid}")
+                time_slice = int(input("请输入时间片大小: ").strip())
+                clock.set_time_slice(time_slice)
+                print(f"时间片已设置为 {time_slice}.")
             except ValueError:
-                print("输入无效，请重新尝试.")
-        elif command == '2':
-            clock.tick()
-        elif command == '3':
-            print("感谢使用进程管理模拟系统！再见！")
-            break
-        else:
-            print("未知命令，请选择有效的命令编号.")
+                print("时间片无效，默认为 2.")
 
-if __name__ == '__main__':
+        while True:  # 内层循环用于处理命令
+            print("\n命令列表：")
+            print("1. 创建 - 创建新进程")
+            print("2. 推进 - 推进模拟时间")
+            print("3. 返回 - 返回调度算法选择")
+            print("0. 退出 - 退出程序")
+            command = input("请输入命令编号：").strip()
+
+            if command == '1':
+                try:
+                    pid, priority, burst_time = map(int, input("请输入PID, 优先级, 和所需CPU时间（用空格分隔）: ").split())
+                    pcb = Process(pid, priority, burst_time)
+                    clock.add_process(pcb)
+                    print(f"已创建进程 PID: {pid}")
+                except ValueError:
+                    print("输入无效，请重新尝试.")
+            elif command == '2':
+                time_unit = 1 if scheduler_algorithm != 'rr' else clock.time_slice
+                clock.tick(scheduler_algorithm, time_unit)
+            elif command == '3':
+                print("返回调度算法选择...")
+                break  # 退出内层循环，返回到外层循环重新选择调度算法
+            elif command == '0':
+                print("感谢使用进程管理模拟系统！再见！")
+                return  # 退出整个程序
+            else:
+                print("未知命令，请选择有效的命令编号.")
+
+if __name__ == "__main__":
     main()
