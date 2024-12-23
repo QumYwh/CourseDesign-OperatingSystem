@@ -1,2 +1,2 @@
 # CourseDesign-OperatingSystem
-操作系统期末课程设计
+fosu操作系统期末课程设计
