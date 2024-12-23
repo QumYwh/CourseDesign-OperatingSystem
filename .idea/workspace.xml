@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc28684e-2452-4307-b7c9-60e3930a42e2" name="更改" comment="模块1">
+    <list default="true" id="fc28684e-2452-4307-b7c9-60e3930a42e2" name="更改" comment="模块1功能初步完成，后续需要继续美化交互界面">
+      <change afterPath="$PROJECT_DIR$/src/module2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/module1.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/module1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,11 +82,20 @@
       <option name="project" value="LOCAL" />
       <updated>1734932135042</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="模块1功能初步完成，后续需要继续美化交互界面">
+      <option name="closed" value="true" />
+      <created>1734940227661</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1734940227661</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="模块1" />
-    <option name="LAST_COMMIT_MESSAGE" value="模块1" />
+    <MESSAGE value="模块1功能初步完成，后续需要继续美化交互界面" />
+    <option name="LAST_COMMIT_MESSAGE" value="模块1功能初步完成，后续需要继续美化交互界面" />
   </component>
 </project>
