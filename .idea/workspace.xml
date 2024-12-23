@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc28684e-2452-4307-b7c9-60e3930a42e2" name="更改" comment="模块1功能初步完成，后续需要继续美化交互界面">
+    <list default="true" id="fc28684e-2452-4307-b7c9-60e3930a42e2" name="更改" comment="模块2功能初步完成，后续需要继续美化交互界面">
+      <change afterPath="$PROJECT_DIR$/src/module3.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,13 +35,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.module1.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.module1.executor": "Run",
+    "Python.module2.executor": "Run",
+    "Python.module3.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Program Files\Develop\Pycharm about python\CourseDesign-OperatingSystem\src" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -104,12 +113,21 @@
       <option name="project" value="LOCAL" />
       <updated>1734943787970</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="模块2功能初步完成，后续需要继续美化交互界面">
+      <option name="closed" value="true" />
+      <created>1734950093162</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1734950093162</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="模块1" />
     <MESSAGE value="模块1功能初步完成，后续需要继续美化交互界面" />
-    <option name="LAST_COMMIT_MESSAGE" value="模块1功能初步完成，后续需要继续美化交互界面" />
+    <MESSAGE value="模块2功能初步完成，后续需要继续美化交互界面" />
+    <option name="LAST_COMMIT_MESSAGE" value="模块2功能初步完成，后续需要继续美化交互界面" />
   </component>
 </project>
