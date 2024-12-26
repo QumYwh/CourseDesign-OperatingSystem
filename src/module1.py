@@ -159,9 +159,9 @@ class ProcessManagerApp:
     def set_time_slice(self):
         """设置时间片，只有在选择轮转调度算法时才允许设置"""
         if self.scheduler_algorithm.get() == "rr":
-            time_slice = tk.simpledialog.askinteger("设置时间片", "请输入时间片大小:")
+            time_slice = tk.simpledialog.askinteger("设置时间片", "请输入时间片大小:")  # 弹出输入框让用户输入时间片
             if time_slice is not None and time_slice > 0:
-                self.clock.set_time_slice(time_slice)
+                self.clock.set_time_slice(time_slice)  # 设置时钟的时间片大小
                 self.log(f"时间片已设置为 {time_slice}")
             else:
                 self.log("无效的时间片大小")
@@ -170,17 +170,17 @@ class ProcessManagerApp:
 
     def advance_time(self):
         """推进时间，根据选择的调度算法进行进程调度"""
-        algorithm = self.scheduler_algorithm.get()
+        algorithm = self.scheduler_algorithm.get()  # 获取当前选择的调度算法
         if algorithm == "fcfs":
-            result = self.clock.fcfs()
+            result = self.clock.fcfs()  # 执行FCFS调度
         elif algorithm == "rr":
-            result = self.clock.rr()
+            result = self.clock.rr()  # 执行轮转调度
         elif algorithm == "priority":
-            result = self.clock.priority_scheduling()
+            result = self.clock.priority_scheduling()  # 执行优先级调度
         elif algorithm == "sjf":
-            result = self.clock.sjf()
+            result = self.clock.sjf()  # 执行最短作业优先调度
         elif algorithm == "srtf":
-            result = self.clock.srtf()
+            result = self.clock.srtf()  # 执行最短剩余时间优先调度
         else:
             result = "未知调度算法"
         self.log(result)
@@ -200,6 +200,6 @@ class ProcessManagerApp:
 
 # 主程序启动
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = ProcessManagerApp(root)
-    root.mainloop()
+    root = tk.Tk()  # 创建主窗口
+    app = ProcessManagerApp(root)  # 创建进程管理应用
+    root.mainloop()  # 进入主循环，等待用户操作
