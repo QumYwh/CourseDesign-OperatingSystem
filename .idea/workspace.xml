@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc28684e-2452-4307-b7c9-60e3930a42e2" name="更改" comment="模块2全面完成">
-      <change afterPath="$PROJECT_DIR$/src/test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages3.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/module3.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/module3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages1.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,17 +37,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.module1.executor": "Run",
-    "Python.module2.executor": "Run",
-    "Python.module3.executor": "Run",
-    "Python.module4.executor": "Run",
-    "Python.test.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.module1.executor&quot;: &quot;Run&quot;,
+    &quot;Python.module2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.module3.executor&quot;: &quot;Run&quot;,
+    &quot;Python.module4.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Program Files\Develop\Pycharm about python\CourseDesign-OperatingSystem\src" />
@@ -161,7 +165,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735182085678</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="模块2全面完成">
+      <option name="closed" value="true" />
+      <created>1735182369227</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1735182369227</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
