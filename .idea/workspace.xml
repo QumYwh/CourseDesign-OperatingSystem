@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc28684e-2452-4307-b7c9-60e3930a42e2" name="更改" comment="模块2全面完成">
-      <change afterPath="$PROJECT_DIR$/src/pages2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages3.txt" afterDir="false" />
+    <list default="true" id="fc28684e-2452-4307-b7c9-60e3930a42e2" name="更改" comment="模块3全面完成">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/module3.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/module3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/module2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/module2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,7 +170,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735182369227</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="模块3全面完成">
+      <option name="closed" value="true" />
+      <created>1735193659552</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1735193659552</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -184,6 +189,7 @@
     <MESSAGE value="模块4功能初步完成，后续需要继续美化交互界面" />
     <MESSAGE value="模块1全面完成" />
     <MESSAGE value="模块2全面完成" />
-    <option name="LAST_COMMIT_MESSAGE" value="模块2全面完成" />
+    <MESSAGE value="模块3全面完成" />
+    <option name="LAST_COMMIT_MESSAGE" value="模块3全面完成" />
   </component>
 </project>

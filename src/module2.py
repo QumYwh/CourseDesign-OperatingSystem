@@ -184,8 +184,9 @@ class MemoryManager:
         self.user_memory = self.total_memory - self.os_memory  # 用户可用内存
         self.fixed_partitions = [16, 16, 16, 16, 16, 16]  # 固定分区，每个分区16K
         self.fixed_allocation = [None] * len(self.fixed_partitions)  # 固定分区分配状态
-        self.variable_free = [(4, self.user_memory - 4)]  # 可变分区的未分配表，4K 起始地址
+        self.variable_free = [(self.os_memory, self.user_memory)]  # 可变分区的未分配表
         self.variable_allocated = []  # 可变分区的已分配表
+
 
     def display_fixed_table_gui(self, text_box):
         """
@@ -244,9 +245,13 @@ class MemoryManager:
         """
         for i, (start, free_size) in enumerate(self.variable_free):
             if free_size >= size:
+                # 分配空间
                 self.variable_allocated.append((start, size, job_name))
-                self.variable_free[i] = (start + size, free_size - size)
-                if self.variable_free[i][1] == 0:
+                if free_size > size:
+                    # 更新未分配表中的剩余空间
+                    self.variable_free[i] = (start + size, free_size - size)
+                else:
+                    # 如果刚好分配完移除该空闲区
                     self.variable_free.pop(i)
                 return
         print("没有足够的可用空间进行分配！")
@@ -258,10 +263,11 @@ class MemoryManager:
         """
         for i, (start, size, job) in enumerate(self.variable_allocated):
             if job == job_name:
+                # 释放空间
                 self.variable_allocated.pop(i)
                 self.variable_free.append((start, size))
-                self.variable_free.sort()
-                self.merge_free_space()
+                self.variable_free.sort()  # 按起始地址排序
+                self.merge_free_space()  # 合并相邻空闲区域
                 return
         print("未找到该作业！")
 
@@ -272,6 +278,7 @@ class MemoryManager:
         merged = []
         for start, size in sorted(self.variable_free):
             if merged and merged[-1][0] + merged[-1][1] == start:
+                # 如果上一个区域的结束地址与当前区域的起始地址相连，合并
                 merged[-1] = (merged[-1][0], merged[-1][1] + size)
             else:
                 merged.append((start, size))
