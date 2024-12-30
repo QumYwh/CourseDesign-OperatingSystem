@@ -3,7 +3,7 @@ from tkinter import filedialog, messagebox
 import collections
 
 
-# FIFO页面调度算法 (First-In-First-Out page scheduling algorithm)
+# FIFO页面调度算法
 def fifo(page_sequence, frame_size):
     frames = []  # 用于存储页面的列表
     page_faults = 0  # 缺页次数
@@ -24,7 +24,7 @@ def fifo(page_sequence, frame_size):
     return evicted_pages, page_faults  # 返回淘汰的页面和缺页次数
 
 
-# LRU页面调度算法 (Least Recently Used page scheduling algorithm)
+# LRU页面调度算法
 def lru(page_sequence, frame_size):
     frames = collections.OrderedDict()  # 有序字典，用于模拟LRU（按访问顺序维护页面）
     page_faults = 0  # 缺页次数
@@ -44,8 +44,7 @@ def lru(page_sequence, frame_size):
     return evicted_pages, page_faults  # 返回淘汰的页面和缺页次数
 
 
-# LFU页面调度算法 (Least Frequently Used page scheduling algorithm)
-# 优化后的 LFU 页面调度算法 (Optimized LFU page scheduling algorithm)
+# LFU 页面调度算法
 def lfu(page_sequence, frame_size):
     frames = {}  # 存储页面及其加载顺序
     frequency = collections.defaultdict(int)  # 页面访问频率
@@ -71,7 +70,7 @@ def lfu(page_sequence, frame_size):
     return evicted_pages, page_faults  # 返回淘汰的页面和缺页次数
 
 
-# 读取页面序列 (Read page sequence from a file)
+# 读取页面序列
 def read_page_sequence(file_path):
     with open(file_path, 'r') as file:
         page_sequence = [int(line.strip()) for line in file.readlines()]  # 从文件中读取页面序列
