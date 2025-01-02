@@ -182,7 +182,7 @@ class MemoryManager:
         self.total_memory = 128  # 总内存大小（以K为单位）
         self.os_memory = 4  # OS占用内存
         self.user_memory = self.total_memory - self.os_memory  # 用户可用内存
-        self.fixed_partitions = [16, 16, 16, 16, 16, 16]  # 固定分区，每个分区16K
+        self.fixed_partitions = [1,1,2,4,4,8,16,88]  # 固定分区，每个分区16K
         self.fixed_allocation = [None] * len(self.fixed_partitions)  # 固定分区分配状态
         self.variable_free = [(self.os_memory, self.user_memory)]  # 可变分区的未分配表
         self.variable_allocated = []  # 可变分区的已分配表
