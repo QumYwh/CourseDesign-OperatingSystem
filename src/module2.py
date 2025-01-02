@@ -36,13 +36,9 @@ class MemoryManagerGUI:
         self.entry_frame = tk.Frame(self.master)
         self.entry_frame.pack(padx=10, pady=5, fill=tk.X)
 
-        self.partition_label = tk.Label(self.entry_frame, text="分区编号：")
+        # Remove the partition label and entry for fixed partition mode
+        self.partition_label = tk.Label(self.entry_frame, text="作业名称：")
         self.partition_label.pack(side=tk.LEFT)
-        self.partition_entry = tk.Entry(self.entry_frame)
-        self.partition_entry.pack(side=tk.LEFT, padx=5)
-
-        self.job_name_label = tk.Label(self.entry_frame, text="作业名称：")
-        self.job_name_label.pack(side=tk.LEFT)
         self.job_name_entry = tk.Entry(self.entry_frame)
         self.job_name_entry.pack(side=tk.LEFT, padx=5)
 
@@ -69,17 +65,15 @@ class MemoryManagerGUI:
         self.allocate_button.config(state="normal")
         self.release_button.config(state="normal")
         self.show_button.config(state="normal")
-        self.partition_label.config(state="normal")
-        self.partition_entry.config(state="normal")
-        self.size_label.config(state="disabled")
-        self.size_entry.config(state="disabled")
+        self.partition_label.config(state="disabled")
+        self.size_label.config(state="normal")
+        self.size_entry.config(state="normal")
 
     def setup_variable_partition_mode(self):
         self.allocate_button.config(state="normal")
         self.release_button.config(state="normal")
         self.show_button.config(state="normal")
         self.partition_label.config(state="disabled")
-        self.partition_entry.config(state="disabled")
         self.size_label.config(state="normal")
         self.size_entry.config(state="normal")
 
@@ -89,10 +83,10 @@ class MemoryManagerGUI:
 
         if mode == "固定分区方式":
             try:
-                partition = int(self.partition_entry.get())
-                self.manager.allocate_fixed(partition, job_name)
+                size = float(self.size_entry.get())  # Allow floating point size
+                self.manager.allocate_fixed(job_name, size)
             except ValueError:
-                self.display_message("请输入有效的分区编号！")
+                self.display_message("请输入有效的作业大小！")
                 return
         elif mode == "可变分区方式":
             try:
@@ -130,7 +124,6 @@ class MemoryManagerGUI:
         self.text_box.config(state="disabled")
 
     def clear_input_fields(self):
-        self.partition_entry.delete(0, tk.END)
         self.job_name_entry.delete(0, tk.END)
         self.size_entry.delete(0, tk.END)
 
@@ -153,19 +146,19 @@ class MemoryManager:
     def display_fixed_table_gui(self, text_box):
         text_box.insert(tk.END, "\n固定分区分配情况：\n")
         text_box.insert(tk.END, "分区编号\t大小(K)\t状态\n")
+        # Reflect OS memory usage in the fixed partition table
         for i, size in enumerate(self.fixed_partitions):
             status = self.fixed_allocation[i] if self.fixed_allocation[i] else "空闲"
             text_box.insert(tk.END, f"{i + 1}\t\t{size}\t\t{status}\n")
 
-    def allocate_fixed(self, partition, job_name):
-        if 1 <= partition <= len(self.fixed_partitions):
-            index = partition - 1
-            if not self.fixed_allocation[index]:
-                self.fixed_allocation[index] = job_name
-            else:
-                print("该分区已被占用！")
-        else:
-            print("无效的分区编号！")
+    def allocate_fixed(self, job_name, size):
+        # Allocating a floating-point size in fixed partitions
+        for i in range(len(self.fixed_partitions)):
+            if not self.fixed_allocation[i] and self.fixed_partitions[i] >= size:
+                self.fixed_allocation[i] = job_name
+                self.fixed_partitions[i] -= size  # Reduce the available memory in the partition
+                return
+        print("没有足够的固定分区空间！")
 
     def release_fixed(self, job_name):
         for i in range(len(self.fixed_allocation)):
