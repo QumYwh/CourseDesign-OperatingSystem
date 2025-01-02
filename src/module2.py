@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
+
 class MemoryManagerGUI:
     def __init__(self, master):
         self.master = master
@@ -35,6 +36,11 @@ class MemoryManagerGUI:
         self.entry_frame = tk.Frame(self.master)
         self.entry_frame.pack(padx=10, pady=5, fill=tk.X)
 
+        self.partition_label = tk.Label(self.entry_frame, text="分区编号：")
+        self.partition_label.pack(side=tk.LEFT)
+        self.partition_entry = tk.Entry(self.entry_frame)
+        self.partition_entry.pack(side=tk.LEFT, padx=5)
+
         self.job_name_label = tk.Label(self.entry_frame, text="作业名称：")
         self.job_name_label.pack(side=tk.LEFT)
         self.job_name_entry = tk.Entry(self.entry_frame)
@@ -63,6 +69,8 @@ class MemoryManagerGUI:
         self.allocate_button.config(state="normal")
         self.release_button.config(state="normal")
         self.show_button.config(state="normal")
+        self.partition_label.config(state="normal")
+        self.partition_entry.config(state="normal")
         self.size_label.config(state="disabled")
         self.size_entry.config(state="disabled")
 
@@ -70,6 +78,8 @@ class MemoryManagerGUI:
         self.allocate_button.config(state="normal")
         self.release_button.config(state="normal")
         self.show_button.config(state="normal")
+        self.partition_label.config(state="disabled")
+        self.partition_entry.config(state="disabled")
         self.size_label.config(state="normal")
         self.size_entry.config(state="normal")
 
@@ -78,13 +88,18 @@ class MemoryManagerGUI:
         job_name = self.job_name_entry.get()
 
         if mode == "固定分区方式":
-            self.manager.allocate_fixed(job_name)
+            try:
+                partition = int(self.partition_entry.get())
+                self.manager.allocate_fixed(partition, job_name)
+            except ValueError:
+                self.display_message("请输入有效的分区编号！")
+                return
         elif mode == "可变分区方式":
             try:
                 size = float(self.size_entry.get())
                 self.manager.allocate_variable(job_name, size)
             except ValueError:
-                self.display_message("请输入有效的作业大小")
+                self.display_message("请输入有效的作业大小！")
                 return
 
         self.show_table()
@@ -115,6 +130,7 @@ class MemoryManagerGUI:
         self.text_box.config(state="disabled")
 
     def clear_input_fields(self):
+        self.partition_entry.delete(0, tk.END)
         self.job_name_entry.delete(0, tk.END)
         self.size_entry.delete(0, tk.END)
 
@@ -122,6 +138,7 @@ class MemoryManagerGUI:
         self.text_box.config(state="normal")
         self.text_box.insert(tk.END, message + "\n")
         self.text_box.config(state="disabled")
+
 
 class MemoryManager:
     def __init__(self):
@@ -140,12 +157,15 @@ class MemoryManager:
             status = self.fixed_allocation[i] if self.fixed_allocation[i] else "空闲"
             text_box.insert(tk.END, f"{i + 1}\t\t{size}\t\t{status}\n")
 
-    def allocate_fixed(self, job_name):
-        for i in range(len(self.fixed_allocation)):
-            if not self.fixed_allocation[i]:
-                self.fixed_allocation[i] = job_name
-                return
-        print("没有空闲的固定分区可供分配！")
+    def allocate_fixed(self, partition, job_name):
+        if 1 <= partition <= len(self.fixed_partitions):
+            index = partition - 1
+            if not self.fixed_allocation[index]:
+                self.fixed_allocation[index] = job_name
+            else:
+                print("该分区已被占用！")
+        else:
+            print("无效的分区编号！")
 
     def release_fixed(self, job_name):
         for i in range(len(self.fixed_allocation)):
@@ -194,6 +214,7 @@ class MemoryManager:
             else:
                 merged.append((start, size))
         self.variable_free = merged
+
 
 if __name__ == "__main__":
     root = tk.Tk()
