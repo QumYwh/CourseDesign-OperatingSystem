@@ -23,6 +23,7 @@ class Process:
 
     def __repr__(self):
         return f"进程(pid={self.pid}, 优先级={self.priority}, 状态={self.state}, 剩余时间={self.remaining_time})"
+    62
 
 
 # 时钟类，用于模拟调度器

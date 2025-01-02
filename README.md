@@ -1,5 +1,5 @@
-# CourseDesign-OperatingSystem
-fosu操作系统期末课程设计
+CourseDesign-OperatingSystem
+这是fosu操作系统期末课程设计
 要求实现操作系统的四个管理模块（语言不限）。
 
 1、进程管理模块设计
